@@ -1,0 +1,17 @@
+.memory-card {
+  height: auto;
+  cursor: pointer;
+  background-color: white;
+}
+
+.memory-card img {
+  width: 100%;
+}
+
+.memory-card p {
+  background-color: theme("colors.digimon-light-blue");
+}
+
+.memory-card:hover {
+  box-shadow: 0px 0px 50px theme("colors.digimon-orange");
+}
