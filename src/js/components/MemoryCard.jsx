@@ -1,6 +1,8 @@
+import PropTypes from "prop-types";
+
 import "../../css/MemoryCard.css";
 
-export default function MemoryCard({ digimon, handleClick }) {
+function MemoryCard({ digimon, handleClick }) {
   return (
     <div
       className="memory-card"
@@ -13,3 +15,10 @@ export default function MemoryCard({ digimon, handleClick }) {
     </div>
   );
 }
+
+MemoryCard.propTypes = {
+  digimon: PropTypes.object.isRequired,
+  handleClick: PropTypes.func.isRequired,
+};
+
+export default MemoryCard;

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import MemoryCard from "./MemoryCard";
+import PropTypes from "prop-types";
+
 import fetchData from "../api/api.js";
 import "../../css/MemoryDeck.css";
-
 import shuffleArray from "../utils/shuffleArray.js";
 
 const choosenDigimon = [
@@ -16,7 +17,7 @@ const choosenDigimon = [
   "Penguinmon",
 ];
 
-export default function MemoryDeck({ url, setScore }) {
+function MemoryDeck({ url, setScore }) {
   const [digimon, setDigimon] = useState([]);
   const [shuffledDigimon, setShuffledDigimon] = useState([]);
   const [clickedArray, setClickedArray] = useState([]);
@@ -83,3 +84,14 @@ export default function MemoryDeck({ url, setScore }) {
     </div>
   );
 }
+
+MemoryDeck.defaultProps = {
+  url: "https://digimon-api.vercel.app/api/digimon",
+};
+
+MemoryDeck.propTypes = {
+  url: PropTypes.string.isRequired,
+  setScore: PropTypes.func.isRequired,
+};
+
+export default MemoryDeck;
