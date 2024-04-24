@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import MemoryCard from "./MemoryCard";
+import MemoryCard from "./MemoryCard.jsx";
 import PropTypes from "prop-types";
 
-import fetchData from "../api/api.js";
 import "../../css/MemoryDeck.css";
 import shuffleArray from "../utils/shuffleArray.js";
 
@@ -17,7 +16,10 @@ const choosenDigimon = [
   "Penguinmon",
 ];
 
-function MemoryDeck({ url, setScore }) {
+function MemoryDeck({
+  url = "https://digimon-api.vercel.app/api/digimon",
+  setScore,
+}) {
   const [digimon, setDigimon] = useState([]);
   const [shuffledDigimon, setShuffledDigimon] = useState([]);
   const [clickedArray, setClickedArray] = useState([]);
@@ -35,39 +37,38 @@ function MemoryDeck({ url, setScore }) {
       console.log("Woop, not been clicked yet");
       setScore(clickedArray.length + 1);
     }
+
+    shuffleDigimon(digimon);
+  }
+
+  function shuffleDigimon(toShuffle) {
+    const newShuffle = shuffleArray(toShuffle);
+
+    console.log("-- Shuffled Digimon", newShuffle);
+    setShuffledDigimon(newShuffle);
   }
 
   // When component first mounts, fetch data from API
   useEffect(() => {
-    // Create a ignore variable to only fetch data once
-    let ignore = false;
-    if (!ignore) {
-      fetchData(url)
-        .then((data) => {
-          console.log("Data received", data);
-          const filteredDigimon = data.filter((d) =>
-            choosenDigimon.includes(d.name)
-          );
-          console.log("-- Digimon found", filteredDigimon);
-          setDigimon(filteredDigimon);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    const fetchDigimon = async (endpoint) => {
+      try {
+        console.log("bob", endpoint);
+        const response = await fetch(endpoint);
+        const data = await response.json();
 
-    return () => {
-      ignore = true;
+        console.log("Data received", data);
+        const filteredDigimon = data.filter((d) =>
+          choosenDigimon.includes(d.name)
+        );
+        console.log("-- Digimon found", filteredDigimon);
+        setDigimon(filteredDigimon);
+        shuffleDigimon(filteredDigimon);
+      } catch (err) {
+        console.log("hi", err);
+      }
     };
+    fetchDigimon(url);
   }, []);
-
-  useEffect(() => {
-    // Shuffle digimon if digimon data is obtained and player lost
-    const newShuffle = shuffleArray(digimon);
-
-    console.log("-- Shuffled Digimon", newShuffle);
-    setShuffledDigimon(newShuffle);
-  }, [digimon, clickedArray]);
 
   return (
     <div className="memory-card__container">
