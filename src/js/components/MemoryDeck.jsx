@@ -73,13 +73,9 @@ function MemoryDeck({
   return (
     <div className="memory-card__container">
       {shuffledDigimon !== undefined &&
-        shuffledDigimon.map((digimon) => {
+        shuffledDigimon.map((digimon, i) => {
           return (
-            <MemoryCard
-              key={digimon.name}
-              digimon={digimon}
-              handleClick={handleClick}
-            />
+            <MemoryCard key={i} digimon={digimon} handleClick={handleClick} />
           );
         })}
     </div>

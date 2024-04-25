@@ -5,6 +5,7 @@ import "../../css/MemoryCard.css";
 function MemoryCard({ digimon, handleClick }) {
   return (
     <div
+      data-testid="memory-card"
       className="memory-card"
       onClick={() => {
         handleClick(digimon.name);
